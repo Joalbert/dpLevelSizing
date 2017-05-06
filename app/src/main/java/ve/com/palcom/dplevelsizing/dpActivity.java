@@ -1,7 +1,9 @@
 package ve.com.palcom.dplevelsizing;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,21 +18,17 @@ import com.amazon.device.ads.AdLayout;
 import com.amazon.device.ads.AdRegistration;
 
 
-public class dpActivity extends AppCompatActivity implements View.OnClickListener,
-        AdapterView.OnItemSelectedListener
+public class dpActivity extends AppCompatActivity implements View.OnClickListener
+        //AdapterView.OnItemSelectedListener
         {
             Button submitting;
-            //dpPsFragment mdppsLevelCalculation;
-            dpFragment mdpLevelCalculation;
-            ppsFragment mppsLevelCalculation;
-            pFragment mpLevelCalculation;
 
 
-
-            Spinner legTypes;
+            private ViewPager mViewPager;
+           // Spinner legTypes;
             private AdLayout adLayout;
             private int currentVariable;
-            private TabHost mTabHost;
+           // private TabHost mTabHost;
 
             @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +56,23 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
         mTabHost.addTab(mTabSpec);
         */
                 // Spinner Info Loading
+              /*
                 legTypes=(Spinner) findViewById(R.id.numberOfLegs);
                 ArrayAdapter<CharSequence> numberLegs=ArrayAdapter.createFromResource(this,
                         R.array.legs,android.R.layout.simple_spinner_item);
                 numberLegs.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 legTypes.setAdapter(numberLegs);
-
+                */
 
                 amazonBanner("99d0bfb1899b46bb8d9acd16a9f488af");
 
+                mViewPager=(ViewPager) findViewById(R.id.container);
+                setupViewPager(mViewPager);
+
+                TabLayout mTabHost=(TabLayout) findViewById(R.id.tabs);
+                mTabHost.setupWithViewPager(mViewPager);
+
+                /*
                 if(savedInstanceState==null) {
                     currentVariable=0;
                     hideDpFragment();
@@ -85,7 +91,16 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
                             getFragment(savedInstanceState, "mppsLevelCalculation");
 
                 }
+                */
+    }
 
+    private void setupViewPager(ViewPager viewPager){
+        SectionPageAdapter adapter=new SectionPageAdapter(getSupportFragmentManager());
+        // Todo change string with values from resources
+        adapter.addFragment(new dpFragment(),"Tab1");
+        adapter.addFragment(new pFragment(),"Tab2");
+        adapter.addFragment(new ppsFragment(),"Tab3");
+        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -99,7 +114,7 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
     protected void onStart(){
         super.onStart();
         submitting.setOnClickListener(this);
-        legTypes.setOnItemSelectedListener(this);
+        //legTypes.setOnItemSelectedListener(this);
 
     }
 
@@ -108,13 +123,14 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
 
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("currentVariable",currentVariable);
+        /*
         getSupportFragmentManager().putFragment(savedInstanceState,"mpLevelCalculation",
                 mpLevelCalculation);
         getSupportFragmentManager().putFragment(savedInstanceState,"mppsLevelCalculation",
                 mppsLevelCalculation);
         getSupportFragmentManager().putFragment(savedInstanceState,"mdpLevelCalculation",
                 mdpLevelCalculation);
-
+        */
     }
 
             public void amazonBanner(String key){
@@ -150,7 +166,7 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
                 int len;
                 String [] val;
 
-                switch (currentVariable) {
+            /*    switch (currentVariable) {
                     case 0:
                         editTextIds=mdpLevelCalculation.getEditTextIds();
                         len=editTextIds.length;
@@ -204,8 +220,10 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
                     );
                         break;
                 }
+                */
             }
 
+            /*
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -230,14 +248,13 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
                             showPFragment();
                     break;
 
-                  /*
                   case 3: currentVariable=position;
                             hidePPsFragment();
                             hideDpPsFragment();
                             hideDpFragment();
                             showPFragment();
                         break;
-                    */
+
                 }
             }
 
@@ -245,6 +262,7 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
+              */
 /*
             protected boolean isCreatedDpPsFragment()
             {
@@ -284,6 +302,7 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
 
             }
 */
+/*
     protected boolean isCreatedDpFragment()
     {
         return mdpLevelCalculation!=null;
@@ -388,5 +407,5 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
         FT.replace(R.id.pContainer, mpLevelCalculation).commit();
 
     }
-
+*/
 }

@@ -1,15 +1,10 @@
 package ve.com.palcom.dplevelsizing;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -246,6 +241,7 @@ public class dpPresenter
                         setSgLiquid(Double.valueOf(inEditText[6])).
                         build();
                 break;
+                /*
             case 8: //dp Pressurized
                 highChamberFlange=new SignedLength(
                         new BigDecimal(inEditText[1]),inSpinner[1]
@@ -268,6 +264,7 @@ public class dpPresenter
                         build();
 
                 break;
+                */
         }
     return levelCalc;
     }

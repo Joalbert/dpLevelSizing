@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Level Transmitter Sizing (Pressure)</string>
+    <string name="action_settings">Settings</string>
+    <string name="logo">Palcom\'s Logo</string>
+    <string name="highChamberFlangeToMax">Height H1</string>
+    <string name="highChamberFlange">Height H0</string>
+    <string name="highChamberBottomTank">Height BH</string>
+    <string name="lowChamberFlangeToMax">Height L1</string>
+    <string name="lowChamberFlange">Height L0</string>
+    <string name="lowChamberBottomTank">Height BL</string>
+    <string name="staticPressure">Static Pressure Tank</string>
+    <string name="SGFill">SG Fill Fluid</string>
+    <string name="SGLiquid">SG Liquid</string>
+    <string name="img">Tank</string>
+    <string-array name="legs">
+        <item>Two Legs</item>
+        <item>One Leg - Pressurized Tank</item>
+        <item>One Leg - Atmospheric Tank</item>
+    </string-array>
+
+    <string-array name="pressureUnit">
+        <item>Pa.</item>
+        <item>bar</item>
+        <item>atm</item>
+        <item>mmHg</item>
+        <item>mmH2O</item>
+        <item>mH2O</item>
+        <item>kg/cm2</item>
+        <item>psf</item>
+        <item>psi</item>
+        <item>in Hg</item>
+        <item>in H2O</item>
+    </string-array>
+
+    <string-array name="lengthUnit">
+        <item>m</item>
+        <item>dm</item>
+        <item>cm</item>
+        <item>mm</item>
+        <item>um</item>
+        <item>nm</item>
+        <item>A</item>
+        <item>hm</item>
+        <item>km</item>
+        <item>in</item>
+        <item>ft</item>
+        <item>yrd</item>
+        <item>mile</item>
+        <item>Nautical Mile</item>
+        <item>Cable</item>
+    </string-array>
+
+</resources>

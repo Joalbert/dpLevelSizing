@@ -1,0 +1,204 @@
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ve.com.palcom.dplevelsizing.ppsFragment"
+    >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:id="@+id/ppsTank"
+                    android:contentDescription="@string/img"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/pps"
+                    />
+
+                <!--- Inputs-->
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/highChamberFlangeToMax"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/ppsTank"
+                    android:id="@+id/ppsMaximumLevelHighChamber"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ppsTank"
+                    android:id="@+id/ppsMaximumLevelHighChamberUnit"
+                    />
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/highChamberFlange"
+                    android:layout_below="@+id/ppsMaximumLevelHighChamber"
+                    android:id="@+id/ppsHighChamberToFlange"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ppsMaximumLevelHighChamber"
+                    android:id="@+id/ppsHighChamberToFlangeUnit"
+                    />
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/highChamberBottomTank"
+                    android:layout_below="@+id/ppsHighChamberToFlange"
+                    android:id="@+id/ppsBottomTankHighChamberFlange"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ppsHighChamberToFlange"
+                    android:id="@+id/ppsBottomTankHighChamberFlangeUnit"
+                    />
+
+                <!--- Comun para los dos -->
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/staticPressure"
+                    android:layout_below="@+id/ppsBottomTankHighChamberFlange"
+                    android:id="@+id/ppsPressureTank"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ppsBottomTankHighChamberFlange"
+                    android:id="@+id/ppsPressureTankUnit"
+                    />
+
+                <EditText android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/SGFill"
+                    android:layout_below="@+id/ppsPressureTank"
+                    android:id="@+id/ppsSgFill"
+                    />
+                <EditText android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/SGLiquid"
+                    android:layout_below="@+id/ppsSgFill"
+                    android:id="@+id/ppsSgLiquid"
+                    />
+
+                <!--- Inputs-->
+
+                <!--- Result-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/ppsSgLiquid"
+                    android:textIsSelectable="true"
+                    android:background="@drawable/text_logo"
+                    android:id="@+id/ppsMinPressure"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ppsSgLiquid"
+                    android:id="@+id/ppsMinPressureUnit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_logo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textIsSelectable="true"
+                    android:layout_below="@+id/ppsMinPressureUnit"
+                    android:id="@+id/ppsMaxPressure"/>
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ppsMinPressureUnit"
+                    android:id="@+id/ppsMaxPressureUnit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_logo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textIsSelectable="true"
+                    android:layout_below="@+id/ppsMaxPressureUnit"
+                    android:id="@+id/ppsMinHeight"/>
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ppsMaxPressureUnit"
+                    android:id="@+id/ppsMinHeightUnit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_logo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textIsSelectable="true"
+                    android:layout_below="@+id/ppsMinHeightUnit"
+                    android:id="@+id/ppsMaxHeight"/>
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ppsMinHeightUnit"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:id="@+id/ppsMaxHeightUnit"
+                    />
+                <!--- Result-->
+            </RelativeLayout>
+</ScrollView>
+
+
+

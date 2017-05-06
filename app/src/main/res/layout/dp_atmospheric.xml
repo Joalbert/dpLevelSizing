@@ -1,0 +1,222 @@
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ve.com.palcom.dplevelsizing.dpFragment"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+                <ImageView android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/dpTank"
+                    android:contentDescription="@string/img"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/dp"
+                    />
+
+                <!--- Inputs-->
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/highChamberFlangeToMax"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/dpTank"
+                    android:id="@+id/dpMaximumLevelHighChamber"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpTank"
+                    android:id="@+id/dpMaximumLevelHighChamberUnit"
+                    />
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/highChamberFlange"
+                    android:layout_below="@+id/dpMaximumLevelHighChamber"
+                    android:id="@+id/dpHighChamberToFlange"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpMaximumLevelHighChamber"
+                    android:id="@+id/dpHighChamberToFlangeUnit"
+                    />
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/highChamberBottomTank"
+                    android:layout_below="@+id/dpHighChamberToFlange"
+                    android:id="@+id/dpBottomTankHighChamberFlange"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpHighChamberToFlange"
+                    android:id="@+id/dpBottomTankHighChamberFlangeUnit"
+                    />
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/lowChamberFlange"
+                    android:layout_below="@+id/dpBottomTankHighChamberFlange"
+                    android:id="@+id/dpLowChamberToFlange"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpBottomTankHighChamberFlange"
+                    android:id="@+id/dpLowChamberToFlangeUnit"
+                    />
+
+                <EditText android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/lowChamberBottomTank"
+                    android:layout_below="@+id/dpLowChamberToFlange"
+                    android:id="@+id/dpBottomTankLowChamberFlange"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpLowChamberToFlange"
+                    android:id="@+id/dpBottomTankLowChamberFlangeUnit"
+                    />
+                <!--- Comun para los dos -->
+                <EditText android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:hint="@string/SGFill"
+                    android:layout_below="@+id/dpBottomTankLowChamberFlange"
+                    android:id="@+id/dpSgFill"
+                    />
+
+                <EditText android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/SGLiquid"
+                    android:layout_below="@+id/dpSgFill"
+                    android:id="@+id/dpSgLiquid"
+                    />
+
+                <!--- Inputs-->
+
+                <!--- Result-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/dpSgLiquid"
+                    android:textIsSelectable="true"
+                    android:background="@drawable/text_logo"
+                    android:id="@+id/dpMinPressure"
+                    />
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpSgLiquid"
+                    android:id="@+id/dpMinPressureUnit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_logo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textIsSelectable="true"
+                    android:layout_below="@+id/dpMinPressureUnit"
+                    android:id="@+id/dpMaxPressure"/>
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpMinPressureUnit"
+                    android:id="@+id/dpMaxPressureUnit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_logo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textIsSelectable="true"
+                    android:layout_below="@+id/dpMaxPressureUnit"
+                    android:id="@+id/dpMinHeight"/>
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/dpMaxPressureUnit"
+                    android:id="@+id/dpMinHeightUnit"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_logo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textIsSelectable="true"
+                    android:layout_below="@+id/dpMinHeightUnit"
+                    android:id="@+id/dpMaxHeight"/>
+
+                <Spinner android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dpMinHeightUnit"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/spinner_units_utilities"
+                    android:id="@+id/dpMaxHeightUnit"
+                    />
+                <!--- Result-->
+    </RelativeLayout>
+</ScrollView>
+
+
+
