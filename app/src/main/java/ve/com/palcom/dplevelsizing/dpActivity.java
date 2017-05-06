@@ -17,10 +17,9 @@ import com.amazon.device.ads.AdRegistration;
 public class dpActivity extends AppCompatActivity implements View.OnClickListener
 {
     Button submitting;
-
+    AdLayout adLayout;
     SectionPageAdapter adapter;
     private ViewPager mViewPager;
-    private AdLayout adLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +72,15 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
     }
 
     public void amazonBanner(String key){
-                AdRegistration.setAppKey(key);
-                AdRegistration.enableTesting(false);
-                AdRegistration.enableLogging(false);
-                adLayout=(AdLayout) findViewById(R.id.ad_view);
-                adLayout.loadAd();
-                adLayout.showAd();
-                adLayout.enableAutoShow();
-                adLayout.setTimeout(60000);
-            }
+        AdRegistration.setAppKey(key);
+        AdRegistration.enableTesting(true);
+        AdRegistration.enableLogging(true);
+        adLayout=(AdLayout) findViewById(R.id.ad_view);
+        adLayout.loadAd();
+        adLayout.showAd();
+        adLayout.enableAutoShow();
+        adLayout.setTimeout(60000);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
@@ -172,6 +171,12 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
                 break;
         }
 
+    }
+
+    @Override
+    protected void onDestroy(){
+    super.onDestroy();
+    this.adLayout.destroy();
     }
 
 
