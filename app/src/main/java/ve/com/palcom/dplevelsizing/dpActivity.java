@@ -2,104 +2,53 @@ package ve.com.palcom.dplevelsizing;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TabHost;
 
 import com.amazon.device.ads.AdLayout;
 import com.amazon.device.ads.AdRegistration;
 
 
 public class dpActivity extends AppCompatActivity implements View.OnClickListener
-        //AdapterView.OnItemSelectedListener
-        {
-            Button submitting;
+{
+    Button submitting;
 
+    SectionPageAdapter adapter;
+    private ViewPager mViewPager;
+    private AdLayout adLayout;
 
-            private ViewPager mViewPager;
-           // Spinner legTypes;
-            private AdLayout adLayout;
-            private int currentVariable;
-           // private TabHost mTabHost;
-
-            @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_dp);
+        Toolbar mtoolbar=(Toolbar) findViewById(R.id.toolbar);
+        mtoolbar.setTitle(getString(R.string.app_name));
+        setSupportActionBar(mtoolbar);
+
         submitting = (Button) findViewById(R.id.submit);
 
-        /*
-        mTabHost=(TabHost) findViewById(R.id.tabHost);
-        mTabHost.setup();
+        amazonBanner("99d0bfb1899b46bb8d9acd16a9f488af");
 
-        TabHost.TabSpec mTabSpec=mTabHost.newTabSpec("DP Calc");
-        mTabSpec.setContent(R.id.dppsContainer);
-        mTabSpec.setIndicator("DP Calc");
-        mTabHost.addTab(mTabSpec);
+        mViewPager=(ViewPager) findViewById(R.id.container);
+        setupViewPager(mViewPager);
 
-        mTabSpec=mTabHost.newTabSpec("LT one Leg");
-        mTabSpec.setContent(R.id.pContainer);
-        mTabSpec.setIndicator("LT one Leg");
-        mTabHost.addTab(mTabSpec);
+        TabLayout mTabHost=(TabLayout) findViewById(R.id.tabs);
+        mTabHost.setupWithViewPager(mViewPager);
 
-        mTabSpec=mTabHost.newTabSpec("LT one Leg - Pressurized");
-        mTabSpec.setContent(R.id.pContainer);
-        mTabSpec.setIndicator("LT one Leg - Pressurized");
-        mTabHost.addTab(mTabSpec);
-        */
-                // Spinner Info Loading
-              /*
-                legTypes=(Spinner) findViewById(R.id.numberOfLegs);
-                ArrayAdapter<CharSequence> numberLegs=ArrayAdapter.createFromResource(this,
-                        R.array.legs,android.R.layout.simple_spinner_item);
-                numberLegs.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                legTypes.setAdapter(numberLegs);
-                */
 
-                amazonBanner("99d0bfb1899b46bb8d9acd16a9f488af");
-
-                mViewPager=(ViewPager) findViewById(R.id.container);
-                setupViewPager(mViewPager);
-
-                TabLayout mTabHost=(TabLayout) findViewById(R.id.tabs);
-                mTabHost.setupWithViewPager(mViewPager);
-
-                /*
-                if(savedInstanceState==null) {
-                    currentVariable=0;
-                    hideDpFragment();
-                    hidePPsFragment();
-                    hidePFragment();
-                   // hideDpPsFragment();
-
-                }
-                else{
-                    currentVariable=savedInstanceState.getInt("currentVariable");
-                    mdpLevelCalculation=(dpFragment) getSupportFragmentManager().
-                            getFragment(savedInstanceState, "mdpLevelCalculation");
-                    mpLevelCalculation=(pFragment) getSupportFragmentManager().
-                            getFragment(savedInstanceState, "mpLevelCalculation");
-                    mppsLevelCalculation=(ppsFragment) getSupportFragmentManager().
-                            getFragment(savedInstanceState, "mppsLevelCalculation");
-
-                }
-                */
     }
 
     private void setupViewPager(ViewPager viewPager){
-        SectionPageAdapter adapter=new SectionPageAdapter(getSupportFragmentManager());
-        // Todo change string with values from resources
-        adapter.addFragment(new dpFragment(),"Tab1");
-        adapter.addFragment(new pFragment(),"Tab2");
-        adapter.addFragment(new ppsFragment(),"Tab3");
+        adapter=new SectionPageAdapter(getSupportFragmentManager());
+        String [] names=getResources().getStringArray(R.array.legs);
+        adapter.addFragment(new dpFragment(),names[0]);
+        adapter.addFragment(new ppsFragment(),names[1]);
+        adapter.addFragment(new pFragment(),names[2]);
         viewPager.setAdapter(adapter);
     }
 
@@ -114,26 +63,16 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
     protected void onStart(){
         super.onStart();
         submitting.setOnClickListener(this);
-        //legTypes.setOnItemSelectedListener(this);
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putInt("currentVariable",currentVariable);
-        /*
-        getSupportFragmentManager().putFragment(savedInstanceState,"mpLevelCalculation",
-                mpLevelCalculation);
-        getSupportFragmentManager().putFragment(savedInstanceState,"mppsLevelCalculation",
-                mppsLevelCalculation);
-        getSupportFragmentManager().putFragment(savedInstanceState,"mdpLevelCalculation",
-                mdpLevelCalculation);
-        */
+
     }
 
-            public void amazonBanner(String key){
+    public void amazonBanner(String key){
                 AdRegistration.setAppKey(key);
                 AdRegistration.enableTesting(false);
                 AdRegistration.enableLogging(false);
@@ -144,8 +83,9 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
                 adLayout.setTimeout(60000);
             }
 
-            @Override
-            public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -160,252 +100,79 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
     }
 
 
-            @Override
-            public void onClick(View v) {
-                int [] editTextIds;
-                int len;
-                String [] val;
-
-            /*    switch (currentVariable) {
-                    case 0:
-                        editTextIds=mdpLevelCalculation.getEditTextIds();
-                        len=editTextIds.length;
-                        val=new String[len];
-
-                        for(int i=0;i<len;i++){
-                            val[i] = "0";
-                        }
-
-                        dpPresenter.setResult(mdpLevelCalculation.getOutTextView(),
-                            mdpLevelCalculation.getOutSpinner(),
-                                findViewById(R.id.dpContainer),
-                                dpPresenter.getLevelCalcCase(
-                                    mdpLevelCalculation.getEditTextIds(),
-                                    val, mdpLevelCalculation.getInSpinner(), findViewById(R.id.dpContainer)
-                            )
-                    );
-                        break;
-                    case 1:
-                        editTextIds=mppsLevelCalculation.getEditTextIds();
-                        len=editTextIds.length;
-                        val=new String[len];
-
-                        for(int i=0;i<len;i++){
-                            val[i] = "0";
-                        }
-
-                        dpPresenter.setResult(mppsLevelCalculation.getOutTextView(),
-                            mppsLevelCalculation.getOutSpinner(), findViewById(R.id.ppsContainer),
-                            dpPresenter.getLevelCalcCase(
-                                    mppsLevelCalculation.getEditTextIds(),
-                                    val, mppsLevelCalculation.getInSpinner(), findViewById(R.id.ppsContainer)
-                            )
-                    );
-                        break;
-                    case 2:
-                        editTextIds=mpLevelCalculation.getEditTextIds();
-                        len=editTextIds.length;
-                        val=new String[len];
-
-                        for(int i=0;i<len;i++){
-                            val[i] = "0";
-                        }
-
-                        dpPresenter.setResult(mpLevelCalculation.getOutTextView(),
-                            mpLevelCalculation.getOutSpinner(), findViewById(R.id.pContainer),
-                            dpPresenter.getLevelCalcCase(
-                                    mpLevelCalculation.getEditTextIds(),
-                                    val, mpLevelCalculation.getInSpinner(), findViewById(R.id.pContainer)
-                            )
-                    );
-                        break;
-                }
-                */
-            }
-
-            /*
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0: currentVariable=position;
-                            hidePPsFragment();
-                            hidePFragment();
-                            showDpFragment();
-                            //showDpPsFragment();
-                        break;
-
-                    case 1: currentVariable=position;
-                            hidePFragment();
-                            //hideDpPsFragment();
-                            hideDpFragment();
-                            showPPsFragment();
-                        break;
-
-                    case 2: currentVariable=position;
-                            //hideDpPsFragment();
-                            hideDpFragment();
-                            hidePPsFragment();
-                            showPFragment();
-                    break;
-
-                  case 3: currentVariable=position;
-                            hidePPsFragment();
-                            hideDpPsFragment();
-                            hideDpFragment();
-                            showPFragment();
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-              */
-/*
-            protected boolean isCreatedDpPsFragment()
-            {
-            return mdppsLevelCalculation!=null;
-            }
-
-
-         protected void showDpPsFragment()
-         {
-                if(isCreatedDpPsFragment()){
-                    FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-                    FT.show(mdppsLevelCalculation).commit();
-                }
-                else {
-                    buildDpPsFragment();
-                }
-            }
-
-            protected void hideDpPsFragment()
-            {
-                if(isCreatedDpPsFragment())
-                {
-                    FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-                    FT.hide(mdppsLevelCalculation).commit();
-                }
-                else {
-                    buildDpPsFragment();
-                    hideDpPsFragment();
-                }
-            }
-
-            protected void buildDpPsFragment()
-            {
-                mdppsLevelCalculation = new dpPsFragment();
-                FragmentTransaction FT = getSupportFragmentManager().beginTransaction();
-                FT.replace(R.id.dppsContainer, mdppsLevelCalculation).commit();
-
-            }
-*/
-/*
-    protected boolean isCreatedDpFragment()
+    @Override
+    public void onClick(View v)
     {
-        return mdpLevelCalculation!=null;
-    }
-
-
-    protected void showDpFragment(){
-        if(isCreatedDpFragment()){
-            FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-            FT.show(mdpLevelCalculation).commit();
-        }
-        else {
-            buildDpFragment();
-        }
-    }
-
-    protected void hideDpFragment(){
-        if(isCreatedDpFragment())
+        int [] editTextIds;
+        int len;
+        String [] val;
+        int position=mViewPager.getCurrentItem();
+        switch (position)
         {
-            FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-            FT.hide(mdpLevelCalculation).commit();
+            case 0:
+                dpFragment mdpLevelCalculation=(dpFragment)
+                        adapter.getItem(position);
+                editTextIds=mdpLevelCalculation.getEditTextIds();
+                len=editTextIds.length;
+                val=new String[len];
+
+                for(int i=0;i<len;i++){
+                    val[i] = "0";
+                }
+
+                dpPresenter.setResult(mdpLevelCalculation.getOutTextView(),
+                    mdpLevelCalculation.getOutSpinner(),
+                        findViewById(R.id.container),
+                        dpPresenter.getLevelCalcCase(
+                            mdpLevelCalculation.getEditTextIds(),
+                            val, mdpLevelCalculation.getInSpinner(),
+                                findViewById(R.id.container)
+                    )
+            );
+                break;
+            case 1:
+                ppsFragment mppsLevelCalculation=(ppsFragment)
+                        adapter.getItem(position);
+                editTextIds=mppsLevelCalculation.getEditTextIds();
+                len=editTextIds.length;
+                val=new String[len];
+
+                for(int i=0;i<len;i++){
+                    val[i] = "0";
+                }
+
+                dpPresenter.setResult(mppsLevelCalculation.getOutTextView(),
+                    mppsLevelCalculation.getOutSpinner(), findViewById(R.id.container),
+                    dpPresenter.getLevelCalcCase(
+                            mppsLevelCalculation.getEditTextIds(),
+                            val, mppsLevelCalculation.getInSpinner(),
+                            findViewById(R.id.container)
+                    )
+            );
+                break;
+            case 2:
+                pFragment mpLevelCalculation=(pFragment)
+                        adapter.getItem(position);
+                editTextIds=mpLevelCalculation.getEditTextIds();
+                len=editTextIds.length;
+                val=new String[len];
+
+                for(int i=0;i<len;i++){
+                    val[i] = "0";
+                }
+
+                dpPresenter.setResult(mpLevelCalculation.getOutTextView(),
+                    mpLevelCalculation.getOutSpinner(), findViewById(R.id.container),
+                    dpPresenter.getLevelCalcCase(
+                            mpLevelCalculation.getEditTextIds(),
+                            val, mpLevelCalculation.getInSpinner(),
+                            findViewById(R.id.container)
+                    )
+            );
+                break;
         }
-        else {
-            buildDpFragment();
-            hideDpFragment();
-        }
+
     }
 
-    protected void buildDpFragment(){
-        mdpLevelCalculation = new dpFragment();
-        FragmentTransaction FT = getSupportFragmentManager().beginTransaction();
-        FT.replace(R.id.dpContainer, mdpLevelCalculation).commit();
 
-    }
-
-    protected boolean isCreatedPPsFragment()
-    {
-        return mppsLevelCalculation!=null;
-    }
-
-
-    protected void showPPsFragment(){
-        if(isCreatedPPsFragment()){
-            FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-            FT.show(mppsLevelCalculation).commit();
-        }
-        else {
-            buildPPsFragment();
-        }
-    }
-
-    protected void hidePPsFragment(){
-        if(isCreatedPPsFragment())
-        {
-            FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-            FT.hide(mppsLevelCalculation).commit();
-        }
-        else {
-            buildPPsFragment();
-            hidePPsFragment();
-        }
-    }
-
-    protected void buildPPsFragment(){
-        mppsLevelCalculation = new ppsFragment();
-        FragmentTransaction FT = getSupportFragmentManager().beginTransaction();
-        FT.replace(R.id.ppsContainer, mppsLevelCalculation).commit();
-
-    }
-
-    protected boolean isCreatedPFragment()
-    {
-        return mpLevelCalculation!=null;
-    }
-
-
-    protected void showPFragment(){
-        if(isCreatedPFragment()){
-            FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-            FT.show(mpLevelCalculation).commit();
-        }
-        else {
-            buildPFragment();
-        }
-    }
-
-    protected void hidePFragment(){
-        if(isCreatedPFragment())
-        {
-            FragmentTransaction FT=getSupportFragmentManager().beginTransaction();
-            FT.hide(mpLevelCalculation).commit();
-        }
-        else {
-            buildPFragment();
-            hidePFragment();
-        }
-    }
-
-    protected void buildPFragment(){
-        mpLevelCalculation = new pFragment();
-        FragmentTransaction FT = getSupportFragmentManager().beginTransaction();
-        FT.replace(R.id.pContainer, mpLevelCalculation).commit();
-
-    }
-*/
 }

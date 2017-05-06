@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Level Transmitter Sizing (Pressure)</string>
+    <string name="app_name">Level Transmitter Sizing</string>
     <string name="action_settings">Settings</string>
     <string name="logo">Palcom\'s Logo</string>
     <string name="highChamberFlangeToMax">Height H1</string>
