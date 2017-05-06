@@ -35,6 +35,7 @@ public class dpPresenter
                                           int unitPressureOutput) {
         BigDecimal out = Pressure.convertPressure(input.getValue(), input.getUnit(),
                 unitPressureOutput);
+
         output.setText(out.round(MathContext.DECIMAL128).toString());
     }
 
@@ -222,22 +223,35 @@ public class dpPresenter
 
                 break;
             case 7: // dp Atmospheric
-                highChamberFlange=new SignedLength(
-                        new BigDecimal(inEditText[1]),inSpinner[1]
+                double sgFillFluid=Double.valueOf(inEditText[5]);
+                if(sgFillFluid==0.0)
+                {
+                    measureHighChamber=new SignedLength(
+                        new BigDecimal(inEditText[0]).add(new BigDecimal(
+                                inEditText[1]
+                        )), inSpinner[0]);
+                }
+                else
+                    {
+                        measureHighChamber=new SignedLength(
+                                new BigDecimal(inEditText[0]),
+                                inSpinner[0]);
+                    }
+                highChamberFlange = new SignedLength(
+                        new BigDecimal(inEditText[1]), inSpinner[1]
                 );
-                measureHighChamber=new SignedLength(
-                        new BigDecimal(inEditText[0]),inSpinner[0]
-                );
+
                 bottomHighChamber=new SignedLength(
                         new BigDecimal(inEditText[2]),inSpinner[2]
                 );
+
                 levelCalc= new dpLevelCalculation.Builder(highChamberFlange,
                         measureHighChamber,bottomHighChamber).
                         setFlangesLowChamber(new SignedLength(new BigDecimal(inSpinner[3]),
                                 inSpinner[3])).
                         setBottomTankFlangesLowChamber(new SignedLength(new BigDecimal(inEditText[4]),
                                 inSpinner[4])).
-                        setSgFillFluid(Double.valueOf(inEditText[5])).
+                        setSgFillFluid(sgFillFluid).
                         setSgLiquid(Double.valueOf(inEditText[6])).
                         build();
                 break;

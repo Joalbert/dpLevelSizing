@@ -1,5 +1,6 @@
 package ve.com.palcom.dplevelsizing;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -33,8 +34,7 @@ public class dpFragment extends Fragment {
      */
     public static dpFragment newInstance()
     {
-        dpFragment fragment = new dpFragment();
-        return fragment;
+        return new dpFragment();
     }
 
     @Override
@@ -96,35 +96,31 @@ public class dpFragment extends Fragment {
         return v;
     }
 
+    public int[] getEditTextIds(){
 
-    protected int[] getEditTextIds(){
-
-        int []out={R.id.dpMaximumLevelHighChamber, R.id.dpHighChamberToFlange,
+        return new int[]{R.id.dpMaximumLevelHighChamber, R.id.dpHighChamberToFlange,
     R.id.dpBottomTankHighChamberFlange, R.id.dpLowChamberToFlange,
             R.id.dpBottomTankLowChamberFlange,
         R.id.dpSgFill, R.id.dpSgLiquid};
-    return out;
     }
 
     protected int[] getInSpinner(){
 
-        int []out={R.id.dpMaximumLevelHighChamberUnit, R.id.dpHighChamberToFlangeUnit,
+        return new int []{R.id.dpMaximumLevelHighChamberUnit, R.id.dpHighChamberToFlangeUnit,
                 R.id.dpBottomTankHighChamberFlangeUnit, R.id.dpLowChamberToFlangeUnit,
                 R.id.dpBottomTankLowChamberFlangeUnit};
-        return out;
+
     }
 
     protected int[] getOutSpinner(){
 
-        int []out={R.id.dpMinPressureUnit, R.id.dpMaxPressureUnit,
+        return new int []{R.id.dpMinPressureUnit, R.id.dpMaxPressureUnit,
                 R.id.dpMinHeightUnit, R.id.dpMaxHeightUnit};
-        return out;
     }
 
     protected int[] getOutTextView(){
-        int []out={R.id.dpMinPressure, R.id.dpMaxPressure,
+        return new int []{R.id.dpMinPressure, R.id.dpMaxPressure,
                 R.id.dpMinHeight, R.id.dpMaxHeight};
-        return out;
     }
 
 }

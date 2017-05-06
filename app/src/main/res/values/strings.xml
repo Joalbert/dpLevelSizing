@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Level Transmitter Sizing</string>
-    <string name="action_settings">Settings</string>
+    <string name="dayMode">Day Mode</string>
+    <string name="nightMode">Night Mode</string>
     <string name="logo">Palcom\'s Logo</string>
     <string name="highChamberFlangeToMax">Height H1</string>
     <string name="highChamberFlange">Height H0</string>
@@ -17,7 +18,7 @@
         <item>One Leg - Pressurized Tank</item>
         <item>One Leg - Atmospheric Tank</item>
     </string-array>
-
+    <string name="result">=</string>
     <string-array name="pressureUnit">
         <item>Pa.</item>
         <item>bar</item>

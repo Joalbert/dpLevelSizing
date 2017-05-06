@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ve.com.palcom.dplevelsizing.dpActivity"
-    style="@style/AppTheme">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,7 +30,6 @@
         android:id="@+id/appbar"
         android:textAlignment="center"
         android:fitsSystemWindows="true"
-        app:theme="@style/AppTheme.AppBarOverlay"
         android:layout_below="@+id/banner"
             >
 
@@ -41,15 +39,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:addStatesFromChildren="false"
-            android:background="@android:color/darker_gray"
-            android:elevation="6dp" >
+                android:elevation="6dp" >
 
         </android.support.v7.widget.Toolbar>
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/tabs"
-
             />
         </android.support.design.widget.AppBarLayout>
 
@@ -75,7 +71,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
             android:id="@+id/submit"
-            android:text="="/>
+            android:text="@string/result"/>
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

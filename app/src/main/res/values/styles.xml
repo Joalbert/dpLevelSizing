@@ -1,10 +1,8 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="colorPrimary">@color/toolbarNightMode</item>
         <item name="android:textColorPrimary">@android:color/primary_text_dark</item>
         <item name="android:colorActivatedHighlight">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/background_dark</item>
@@ -14,7 +12,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="AppTheme.PopupOverlay">
-
+    <style name="dayTheme">
+        <item name="colorPrimary">@color/toolbarDayMode</item>
+        <item name="android:textColorPrimary">@android:color/background_dark</item>
+        <item name="android:colorActivatedHighlight">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/primary_text_dark</item>
     </style>
 </resources>
