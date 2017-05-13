@@ -2,11 +2,11 @@ package ve.com.palcom.dplevelsizing;
 import java.math.BigDecimal;
 
 
-import ve.com.palcom.unitconverter.LengthException;
 import ve.com.palcom.unitconverter.Pressure;
 import ve.com.palcom.unitconverter.SignedLength;
 /**
- * Created by joalbert on 4/14/17.
+ * Author: Joalbert Palacios
+ * Date: 2017-05-13.
  */
 
 public class dpLevelCalculation {

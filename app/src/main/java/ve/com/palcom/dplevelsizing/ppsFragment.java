@@ -18,9 +18,6 @@ import android.widget.TextView;
  */
 public class ppsFragment extends Fragment {
 
-    private View v;
-
-
     public ppsFragment() {
         // Required empty public constructor
     }
@@ -33,15 +30,7 @@ public class ppsFragment extends Fragment {
      */
     public static ppsFragment newInstance()
     {
-        ppsFragment fragment = new ppsFragment();
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
+        return new ppsFragment();
     }
 
     @Override
@@ -50,7 +39,7 @@ public class ppsFragment extends Fragment {
     {
 
 
-        v=inflater.inflate(R.layout.p_pressurized, container, false);
+        View v=inflater.inflate(R.layout.p_pressurized, container, false);
 
 
 
@@ -61,8 +50,8 @@ public class ppsFragment extends Fragment {
 
         int []presSpinnerIds={R.id.ppsMinPressureUnit,R.id.ppsMaxPressureUnit,R.id.ppsPressureTankUnit};
 
-        for(int i=0;i<presSpinnerIds.length;i++) {
-            Spinner pressureSpinner = (Spinner) v.findViewById(presSpinnerIds[i]);
+        for (int presSpinnerId : presSpinnerIds) {
+            Spinner pressureSpinner = (Spinner) v.findViewById(presSpinnerId);
             pressureSpinner.setAdapter(pressureUnits);
         }
 
@@ -75,8 +64,8 @@ public class ppsFragment extends Fragment {
                 R.id.ppsHighChamberToFlangeUnit,R.id.ppsBottomTankHighChamberFlangeUnit,
                 };
 
-        for(int i=0;i<spinnerIds.length;i++) {
-            Spinner out = (Spinner) v.findViewById(spinnerIds[i]);
+        for (int spinnerId : spinnerIds) {
+            Spinner out = (Spinner) v.findViewById(spinnerId);
 
             out.setAdapter(LengthUnits);
         }
@@ -85,8 +74,8 @@ public class ppsFragment extends Fragment {
         // Populating TextView Results
         int []textViewId={R.id.ppsMinPressure,R.id.ppsMaxPressure,
                 R.id.ppsMinHeight,R.id.ppsMaxHeight};
-        for (int i=0;i<textViewId.length;i++) {
-            TextView output = (TextView) v.findViewById(textViewId[i]);
+        for (int aTextViewId : textViewId) {
+            TextView output = (TextView) v.findViewById(aTextViewId);
             output.setText("0");
 
         }
@@ -98,30 +87,26 @@ public class ppsFragment extends Fragment {
 
     protected int[] getEditTextIds(){
 
-        int []out={R.id.ppsMaximumLevelHighChamber, R.id.ppsHighChamberToFlange,
+        return new int[] {R.id.ppsMaximumLevelHighChamber, R.id.ppsHighChamberToFlange,
     R.id.ppsBottomTankHighChamberFlange, R.id.ppsPressureTank,
         R.id.ppsSgFill, R.id.ppsSgLiquid};
-    return out;
     }
 
     protected int[] getInSpinner(){
 
-        int []out={R.id.ppsMaximumLevelHighChamberUnit, R.id.ppsHighChamberToFlangeUnit,
+        return new int[]{R.id.ppsMaximumLevelHighChamberUnit, R.id.ppsHighChamberToFlangeUnit,
                 R.id.ppsBottomTankHighChamberFlangeUnit, R.id.ppsPressureTankUnit};
-        return out;
     }
 
     protected int[] getOutSpinner(){
 
-        int []out={R.id.ppsMinPressureUnit, R.id.ppsMaxPressureUnit,
+        return new int[]{R.id.ppsMinPressureUnit, R.id.ppsMaxPressureUnit,
                 R.id.ppsMinHeightUnit, R.id.ppsMaxHeightUnit};
-        return out;
     }
 
     protected int[] getOutTextView(){
-        int []out={R.id.ppsMinPressure, R.id.ppsMaxPressure,
+        return new int[]{R.id.ppsMinPressure, R.id.ppsMaxPressure,
                 R.id.ppsMinHeight, R.id.ppsMaxHeight};
-        return out;
     }
 
 }

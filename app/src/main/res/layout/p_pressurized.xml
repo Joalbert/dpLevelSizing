@@ -198,7 +198,6 @@
                     />
                 <!--- Result-->
                 <TextView
-                    android:id="@+id/ppsSgFillFluidInd"
                     android:layout_marginTop="5dp"
                     android:layout_below="@+id/ppsMaxHeightUnit"
                     android:layout_height="wrap_content"

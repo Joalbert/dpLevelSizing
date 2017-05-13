@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name">Level Transmitter Sizing</string>
-    <string name="dayMode">Day Mode</string>
-    <string name="nightMode">Night Mode</string>
-    <string name="logo">Palcom\'s Logo</string>
     <string name="highChamberFlangeToMax">Height H1</string>
     <string name="highChamberFlange">Height H0</string>
     <string name="highChamberBottomTank">Height BH</string>
-    <string name="lowChamberFlangeToMax">Height L1</string>
     <string name="lowChamberFlange">Height L0</string>
     <string name="lowChamberBottomTank">Height BL</string>
     <string name="staticPressure">Static Pressure Tank</string>

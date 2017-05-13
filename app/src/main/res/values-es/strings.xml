@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name">Cálculo Transmisor de Nivel</string>
-    <string name="dayMode">Modo Diurno</string>
-    <string name="nightMode">Modo Nocturno</string>
-    <string name="logo">Logo de Palcom</string>
     <string name="highChamberFlangeToMax">Altura H1</string>
     <string name="highChamberFlange">Altura H0</string>
     <string name="highChamberBottomTank">Altura BH</string>
-    <string name="lowChamberFlangeToMax">Altura L1</string>
     <string name="lowChamberFlange">Altura L0</string>
     <string name="lowChamberBottomTank">Altura BL</string>
     <string name="staticPressure">Presión (Tanque)</string>

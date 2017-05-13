@@ -18,7 +18,6 @@ import android.widget.TextView;
  */
 public class dpFragment extends Fragment {
 
-    private View v;
 
 
     public dpFragment() {
@@ -36,12 +35,6 @@ public class dpFragment extends Fragment {
         return new dpFragment();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +42,7 @@ public class dpFragment extends Fragment {
     {
 
 
-        v=inflater.inflate(R.layout.dp_atmospheric, container, false);
+        View v=inflater.inflate(R.layout.dp_atmospheric, container, false);
 
 
 
@@ -60,8 +53,8 @@ public class dpFragment extends Fragment {
 
         int []presSpinnerIds={R.id.dpMinPressureUnit,R.id.dpMaxPressureUnit};
 
-        for(int i=0;i<presSpinnerIds.length;i++) {
-            Spinner pressureSpinner = (Spinner) v.findViewById(presSpinnerIds[i]);
+        for (int presSpinnerId : presSpinnerIds) {
+            Spinner pressureSpinner = (Spinner) v.findViewById(presSpinnerId);
             pressureSpinner.setAdapter(pressureUnits);
         }
 
@@ -75,8 +68,8 @@ public class dpFragment extends Fragment {
                 R.id.dpLowChamberToFlangeUnit,
                 R.id.dpBottomTankLowChamberFlangeUnit};
 
-        for(int i=0;i<spinnerIds.length;i++) {
-            Spinner out = (Spinner) v.findViewById(spinnerIds[i]);
+        for (int spinnerId : spinnerIds) {
+            Spinner out = (Spinner) v.findViewById(spinnerId);
 
             out.setAdapter(LengthUnits);
         }
@@ -85,8 +78,8 @@ public class dpFragment extends Fragment {
         // Populating TextView Results
         int []textViewId={R.id.dpMinPressure,R.id.dpMaxPressure,
                 R.id.dpMinHeight,R.id.dpMaxHeight};
-        for (int i=0;i<textViewId.length;i++) {
-            TextView output = (TextView) v.findViewById(textViewId[i]);
+        for (int aTextViewId : textViewId) {
+            TextView output = (TextView) v.findViewById(aTextViewId);
             output.setText("0");
 
         }

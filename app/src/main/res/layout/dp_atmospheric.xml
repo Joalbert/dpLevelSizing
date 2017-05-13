@@ -215,7 +215,6 @@
                     />
                 <!--- Result-->
                 <TextView
-                    android:id="@+id/dpSgFillFluidInd"
                     android:layout_below="@+id/dpMaxHeightUnit"
                     android:layout_marginTop="5dp"
                     android:layout_height="wrap_content"

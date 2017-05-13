@@ -18,9 +18,6 @@ import android.widget.TextView;
  */
 public class pFragment extends Fragment {
 
-    private View v;
-
-
     public pFragment() {
         // Required empty public constructor
     }
@@ -33,16 +30,9 @@ public class pFragment extends Fragment {
      */
     public static pFragment newInstance()
     {
-        pFragment fragment = new pFragment();
-        return fragment;
+        return new pFragment();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +40,7 @@ public class pFragment extends Fragment {
     {
 
 
-        v=inflater.inflate(R.layout.p_atmospheric, container, false);
+        View v=inflater.inflate(R.layout.p_atmospheric, container, false);
 
 
 
@@ -61,8 +51,8 @@ public class pFragment extends Fragment {
 
         int []presSpinnerIds={R.id.pMinPressureUnit,R.id.pMaxPressureUnit};
 
-        for(int i=0;i<presSpinnerIds.length;i++) {
-            Spinner pressureSpinner = (Spinner) v.findViewById(presSpinnerIds[i]);
+        for (int presSpinnerId : presSpinnerIds) {
+            Spinner pressureSpinner = (Spinner) v.findViewById(presSpinnerId);
             pressureSpinner.setAdapter(pressureUnits);
         }
 
@@ -75,8 +65,8 @@ public class pFragment extends Fragment {
                 R.id.pHighChamberToFlangeUnit,R.id.pBottomTankHighChamberFlangeUnit,
                 };
 
-        for(int i=0;i<spinnerIds.length;i++) {
-            Spinner out = (Spinner) v.findViewById(spinnerIds[i]);
+        for (int spinnerId : spinnerIds) {
+            Spinner out = (Spinner) v.findViewById(spinnerId);
 
             out.setAdapter(LengthUnits);
         }
@@ -85,8 +75,8 @@ public class pFragment extends Fragment {
         // Populating TextView Results
         int []textViewId={R.id.pMinPressure,R.id.pMaxPressure,
                 R.id.pMinHeight,R.id.pMaxHeight};
-        for (int i=0;i<textViewId.length;i++) {
-            TextView output = (TextView) v.findViewById(textViewId[i]);
+        for (int aTextViewId : textViewId) {
+            TextView output = (TextView) v.findViewById(aTextViewId);
             output.setText("0");
 
         }
@@ -98,29 +88,26 @@ public class pFragment extends Fragment {
 
     protected int[] getEditTextIds(){
 
-        int []out={R.id.pMaximumLevelHighChamber, R.id.pHighChamberToFlange,
-    R.id.pBottomTankHighChamberFlange, R.id.pSgFill, R.id.pSgLiquid};
-    return out;
+    return new int[]{R.id.pMaximumLevelHighChamber, R.id.pHighChamberToFlange,
+            R.id.pBottomTankHighChamberFlange, R.id.pSgFill, R.id.pSgLiquid};
     }
 
     protected int[] getInSpinner(){
 
-        int []out={R.id.pMaximumLevelHighChamberUnit, R.id.pHighChamberToFlangeUnit,
+        return new int[]{R.id.pMaximumLevelHighChamberUnit, R.id.pHighChamberToFlangeUnit,
                 R.id.pBottomTankHighChamberFlangeUnit};
-        return out;
+
     }
 
     protected int[] getOutSpinner(){
 
-        int []out={R.id.pMinPressureUnit, R.id.pMaxPressureUnit,
+        return new int[]{R.id.pMinPressureUnit, R.id.pMaxPressureUnit,
                 R.id.pMinHeightUnit, R.id.pMaxHeightUnit};
-        return out;
     }
 
     protected int[] getOutTextView(){
-        int []out={R.id.pMinPressure, R.id.pMaxPressure,
+        return new int[]{R.id.pMinPressure, R.id.pMaxPressure,
                 R.id.pMinHeight, R.id.pMaxHeight};
-        return out;
     }
 
 }

@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.DecimalFormat;
 
 import ve.com.palcom.unitconverter.Pressure;
 import ve.com.palcom.unitconverter.SignedLength;
@@ -22,7 +20,7 @@ public class dpPresenter
 {
 
 
-    public dpPresenter(View view)
+    public dpPresenter()
     {
     }
 
@@ -192,7 +190,7 @@ public class dpPresenter
         int inputLength=inEditText.length;
         switch (inputLength){
             case 5: // p Atmospheric
-                sgFillFluid=Double.valueOf(Double.valueOf(inEditText[3]));
+                sgFillFluid= Double.valueOf(inEditText[3]);
                 if(sgFillFluid==0.0 && Double.valueOf(inEditText[1])!=0.0)
                 {
                     sgFillFluid=Double.valueOf(inEditText[4]);
