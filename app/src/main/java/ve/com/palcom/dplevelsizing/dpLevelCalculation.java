@@ -134,12 +134,13 @@ public class dpLevelCalculation {
             {
             FlangesToHighMeasure = new SignedLength(BigDecimal.ZERO, SignedLength.INCHES);
             }
-        // Validate if instrument is above flanges and compesating into calculation
+            // Validate if instrument is above flanges and compesating into calculation
         if(FlangesToChamber.getValue().compareTo(BigDecimal.ZERO)<0)
             {
             FlangesToHighMeasure=FlangesToHighMeasure.addSignedLength(FlangesToChamber);
             FlangesToChamber = new SignedLength(BigDecimal.ZERO, SignedLength.INCHES);
             }
+
         // Calculate weigh of liquid for the leg
         result=FlangesToChamber.getValue().multiply(new BigDecimal(SGfill));
 
