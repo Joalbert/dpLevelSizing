@@ -214,12 +214,13 @@
                     android:id="@+id/dpMaxHeightUnit"
                     />
                 <!--- Result-->
-        <TextView
-            android:id="@+id/dpSgFillFluidInd"
-            android:layout_below="@+id/dpMaxHeightUnit"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/SGFillFluidIfAny"/>
+                <TextView
+                    android:id="@+id/dpSgFillFluidInd"
+                    android:layout_below="@+id/dpMaxHeightUnit"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/SGFillFluidIfAny"/>
 
     </RelativeLayout>
 </ScrollView>
