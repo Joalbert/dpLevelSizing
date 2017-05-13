@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Cálculo Transmisor de Nivel</string>
+    <string name="dayMode">Modo Diurno</string>
+    <string name="nightMode">Modo Nocturno</string>
+    <string name="logo">Logo de Palcom</string>
+    <string name="highChamberFlangeToMax">Altura H1</string>
+    <string name="highChamberFlange">Altura H0</string>
+    <string name="highChamberBottomTank">Altura BH</string>
+    <string name="lowChamberFlangeToMax">Altura L1</string>
+    <string name="lowChamberFlange">Altura L0</string>
+    <string name="lowChamberBottomTank">Altura BL</string>
+    <string name="staticPressure">Presión (Tanque)</string>
+    <string name="SGFill">Gravedad Especifica Sello</string>
+    <string name="SGLiquid">Gravedad Especifica Líquido (Nivel)</string>
+    <string name="SGFillFluidIfAny">Si no se esta usando fluido de relleno, se deberá indicar colocando
+    0 en el campo de Gravedad Especifica del sello.</string>
+    <string name="img">Tanque</string>
+    <string-array name="legs">
+        <item>Dos Piernas</item>
+        <item>Una Pierna - Pres.</item>
+        <item>Una Pierna - Atmosf.</item>
+    </string-array>
+    <string name="result">=</string>
+    <string-array name="pressureUnit">
+        <item>Pa.-g</item>
+        <item>bar-g</item>
+        <item>atm-g</item>
+        <item>mmHg-g</item>
+        <item>mmH2O-g</item>
+        <item>mH2O-g</item>
+        <item>kg/cm2-g</item>
+        <item>psf-g</item>
+        <item>psi-g</item>
+        <item>in Hg-g</item>
+        <item>in H2O-g</item>
+    </string-array>
+
+    <string-array name="lengthUnit">
+        <item>m</item>
+        <item>dm</item>
+        <item>cm</item>
+        <item>mm</item>
+        <item>um</item>
+        <item>nm</item>
+        <item>A</item>
+        <item>hm</item>
+        <item>km</item>
+        <item>pulgada</item>
+        <item>pie</item>
+        <item>yarda</item>
+        <item>milla</item>
+        <item>Milla nautica</item>
+        <item>Cable</item>
+    </string-array>
+
+</resources>
