@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.text.DecimalFormat;
 
 import ve.com.palcom.unitconverter.Pressure;
 import ve.com.palcom.unitconverter.SignedLength;
@@ -35,8 +36,8 @@ public class dpPresenter
                                           int unitPressureOutput) {
         BigDecimal out = Pressure.convertPressure(input.getValue(), input.getUnit(),
                 unitPressureOutput);
-
-        output.setText(out.round(MathContext.DECIMAL128).toString());
+        out=out.setScale(4,BigDecimal.ROUND_HALF_UP);
+        output.setText(out.toEngineeringString());
     }
 
     /**
@@ -81,7 +82,8 @@ public class dpPresenter
                                        int unitLevelOutput) {
         BigDecimal out = SignedLength.signedConvertLength(input.getValue(), input.getUnit(),
                 unitLevelOutput);
-        output.setText(out.round(MathContext.DECIMAL128).toString());
+        out=out.setScale(4,BigDecimal.ROUND_HALF_UP);
+        output.setText(out.toEngineeringString());
     }
 
 
@@ -184,11 +186,18 @@ public class dpPresenter
         String [] inEditText=getEditText(editTextIds,view,val);
         int [] inSpinner=getSpinnerPosition(inSpinnerIds,view);
         SignedLength highChamberFlange, measureHighChamber,bottomHighChamber;
+        double sgFillFluid;
         dpLevelCalculation levelCalc=new dpLevelCalculation();
 
         int inputLength=inEditText.length;
         switch (inputLength){
             case 5: // p Atmospheric
+                sgFillFluid=Double.valueOf(Double.valueOf(inEditText[3]));
+                if(sgFillFluid==0.0 && Double.valueOf(inEditText[1])!=0.0)
+                {
+                    sgFillFluid=Double.valueOf(inEditText[4]);
+                }
+
                 highChamberFlange=new SignedLength(
                         new BigDecimal(inEditText[1]),inSpinner[1]
                 );
@@ -200,11 +209,17 @@ public class dpPresenter
                 );
                 levelCalc= new dpLevelCalculation.Builder(highChamberFlange,
                         measureHighChamber,bottomHighChamber).
-                        setSgFillFluid(Double.valueOf(inEditText[3])).
+                        setSgFillFluidHighChamber(sgFillFluid).
                         setSgLiquid(Double.valueOf(inEditText[4])).
                         build();
                 break;
             case 6: // p Pressurized
+                sgFillFluid=Double.valueOf(inEditText[4]);
+                if(sgFillFluid==0.0 && Double.valueOf(inEditText[1])!=0.0)
+                {
+                    sgFillFluid=Double.valueOf(inEditText[5]);
+                }
+
                 highChamberFlange=new SignedLength(
                         new BigDecimal(inEditText[1]),inSpinner[1]
                 );
@@ -216,27 +231,25 @@ public class dpPresenter
                 );
                 levelCalc= new dpLevelCalculation.Builder(highChamberFlange,
                         measureHighChamber,bottomHighChamber).
-                        setStaticPressure(new Pressure(new BigDecimal(inEditText[3]),inSpinner[3])).
-                        setSgFillFluid(Double.valueOf(inEditText[4])).
+                        setStaticPressureHighChamber(
+                                new Pressure(new BigDecimal(inEditText[3]),inSpinner[3])).
+                        setStaticPressureLowChamber(new Pressure(new BigDecimal("0.0"),Pressure.PSI)).
+                        setSgFillFluidHighChamber(sgFillFluid).
                         setSgLiquid(Double.valueOf(inEditText[5])).
                         build();
 
                 break;
             case 7: // dp Atmospheric
-                double sgFillFluid=Double.valueOf(inEditText[5]);
-                if(sgFillFluid==0.0)
+                sgFillFluid=Double.valueOf(inEditText[5]);
+                double sgFillFluidLowChamber=sgFillFluid;
+                if(sgFillFluid==0.0 && Double.valueOf(inEditText[1])!=0.0)
                 {
-                    measureHighChamber=new SignedLength(
-                        new BigDecimal(inEditText[0]).add(new BigDecimal(
-                                inEditText[1]
-                        )), inSpinner[0]);
+                    sgFillFluid=Double.valueOf(inEditText[6]);
                 }
-                else
-                    {
-                        measureHighChamber=new SignedLength(
-                                new BigDecimal(inEditText[0]),
+                measureHighChamber=new SignedLength(
+                        new BigDecimal(inEditText[0]),
                                 inSpinner[0]);
-                    }
+
                 highChamberFlange = new SignedLength(
                         new BigDecimal(inEditText[1]), inSpinner[1]
                 );
@@ -247,11 +260,12 @@ public class dpPresenter
 
                 levelCalc= new dpLevelCalculation.Builder(highChamberFlange,
                         measureHighChamber,bottomHighChamber).
-                        setFlangesLowChamber(new SignedLength(new BigDecimal(inSpinner[3]),
+                        setFlangesLowChamber(new SignedLength(new BigDecimal(inEditText[3]),
                                 inSpinner[3])).
                         setBottomTankFlangesLowChamber(new SignedLength(new BigDecimal(inEditText[4]),
                                 inSpinner[4])).
-                        setSgFillFluid(sgFillFluid).
+                        setSgFillFluidHighChamber(sgFillFluid).
+                        setSgFillFluidLowChamber(sgFillFluidLowChamber).
                         setSgLiquid(Double.valueOf(inEditText[6])).
                         build();
                 break;

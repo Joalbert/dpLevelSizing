@@ -20,17 +20,17 @@
     </string-array>
     <string name="result">=</string>
     <string-array name="pressureUnit">
-        <item>Pa.</item>
-        <item>bar</item>
-        <item>atm</item>
-        <item>mmHg</item>
-        <item>mmH2O</item>
-        <item>mH2O</item>
-        <item>kg/cm2</item>
-        <item>psf</item>
-        <item>psi</item>
-        <item>in Hg</item>
-        <item>in H2O</item>
+        <item>Pa.-g</item>
+        <item>bar-g</item>
+        <item>atm-g</item>
+        <item>mmHg-g</item>
+        <item>mmH2O-g</item>
+        <item>mH2O-g</item>
+        <item>kg/cm2-g</item>
+        <item>psf-g</item>
+        <item>psi-g</item>
+        <item>in Hg-g</item>
+        <item>in H2O-g</item>
     </string-array>
 
     <string-array name="lengthUnit">

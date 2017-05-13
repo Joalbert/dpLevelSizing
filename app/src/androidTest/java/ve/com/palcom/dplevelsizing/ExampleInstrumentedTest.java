@@ -43,7 +43,8 @@ import static org.hamcrest.Matchers.allOf;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
 
-    public int [] inputTextViews ={
+
+    private int [] inputTextViews ={
             R.id.dpHighChamberToFlange,
             R.id.dpMaximumLevelHighChamber,
             R.id.dpBottomTankHighChamberFlange,
@@ -52,18 +53,68 @@ public class ExampleInstrumentedTest {
             R.id.dpSgFill, R.id.dpSgLiquid
             };
 
-    public int [] inputScrollViews={
-            R.id.dpHighChamberToFlangeUnit,R.id.dpMaximumLevelHighChamberUnit,
-            R.id.dpBottomTankHighChamberFlangeUnit,R.id.dpLowChamberToFlangeUnit,
+    private int [] inputScrollViews={
+            R.id.dpHighChamberToFlangeUnit,
+            R.id.dpMaximumLevelHighChamberUnit,
+            R.id.dpBottomTankHighChamberFlangeUnit,
+            R.id.dpLowChamberToFlangeUnit,
             R.id.dpBottomTankLowChamberFlangeUnit,
-            R.id.dpMinPressureUnit,R.id.dpMaxPressureUnit,R.id.dpMinHeightUnit,
+            R.id.dpMinPressureUnit,
+            R.id.dpMaxPressureUnit,
+            R.id.dpMinHeightUnit,
             R.id.dpMaxHeightUnit
     };
 
 
-    public int [] outputViews = {R.id.dpMinPressure,R.id.dpMaxPressure,R.id.dpMinHeight,
+
+    private int [] outputViews = {R.id.dpMinPressure,R.id.dpMaxPressure,R.id.dpMinHeight,
             R.id.dpMaxHeight};
 
+
+    private int [] inputTextViewsP ={
+            R.id.pHighChamberToFlange,
+            R.id.pMaximumLevelHighChamber,
+            R.id.pBottomTankHighChamberFlange,
+            R.id.pSgFill, R.id.pSgLiquid
+    };
+
+    private int [] inputScrollViewsP={
+            R.id.pHighChamberToFlangeUnit,R.id.pMaximumLevelHighChamberUnit,
+            R.id.pBottomTankHighChamberFlangeUnit,
+            R.id.pMinPressureUnit,R.id.pMaxPressureUnit,R.id.pMinHeightUnit,
+            R.id.pMaxHeightUnit
+    };
+
+
+    private int [] outputViewsP = {R.id.pMinPressure,R.id.pMaxPressure,R.id.pMinHeight,
+            R.id.pMaxHeight};
+
+
+    private int [] inputTextViewsPps ={
+            R.id.ppsHighChamberToFlange,
+            R.id.ppsMaximumLevelHighChamber,
+            R.id.ppsBottomTankHighChamberFlange,
+            R.id.ppsPressureTank,
+            R.id.ppsSgFill, R.id.ppsSgLiquid
+    };
+
+    private int [] inputScrollViewsPps={
+            R.id.ppsHighChamberToFlangeUnit,R.id.ppsMaximumLevelHighChamberUnit,
+            R.id.ppsBottomTankHighChamberFlangeUnit,R.id.ppsPressureTankUnit,
+            R.id.ppsMinPressureUnit,R.id.ppsMaxPressureUnit,R.id.ppsMinHeightUnit,
+            R.id.ppsMaxHeightUnit
+    };
+
+
+    private int [] outputViewsPps = {R.id.ppsMinPressure,R.id.ppsMaxPressure,R.id.ppsMinHeight,
+            R.id.ppsMaxHeight};
+
+
+    private String [] tabs={"Two Legs","One Leg - Pressurized Tank","One Leg - Atmospheric Tank"};
+
+    private final int DP_MODE=0;
+    private final int P_PS_MODE=1;
+    private final int P_MODE=2;
 
     @Rule
     public ActivityTestRule<dpActivity> mActivity = new ActivityTestRule<>(
@@ -99,7 +150,7 @@ public class ExampleInstrumentedTest {
         double sgWater=0.893; //
         dpLevelCalculation dp= new dpLevelCalculation(
                 lowChamber,lowFlange,bottomLowFlange,highChamber,highFlange,
-                bottomHighFlange,P1,sgfill,sgWater);
+                bottomHighFlange,P1,P1,sgfill,sgfill,sgWater);
         BigDecimal dpValue=dp.getMaxPres();
         if(check(new BigDecimal(-4.674),dpValue)) throw new AssertionError("Level Measured: "+
                 String.valueOf(dpValue.doubleValue()));
@@ -135,7 +186,7 @@ public class ExampleInstrumentedTest {
         double sgWater=0.997; //
         dpLevelCalculation dp= new dpLevelCalculation(
                 lowChamber,lowFlange,bottomLowFlange,highChamber,highFlange,
-                bottomHighFlange,P1,sgfill,sgWater);
+                bottomHighFlange,P1,P1,sgfill,sgfill,sgWater);
         BigDecimal dpValue=dp.getMaxPres();
         if(check(new BigDecimal(323.028),dpValue)) throw new AssertionError("Level Measured: "+
                 String.valueOf(dpValue.doubleValue()));
@@ -177,8 +228,30 @@ public class ExampleInstrumentedTest {
     }
 
     public void calculation(String[] inputValues, int[]inputSpinnerValues,
-                            String [] outputValues)
+                            String [] outputValues, int mode)
     {
+        int [] inputScrollViews=this.inputScrollViews;
+        int []inputTextViews=this.inputTextViews;
+        int [] outputViews=this.outputViews;
+
+        switch(mode)
+        {
+            case P_MODE: inputScrollViews=this.inputScrollViewsP;
+                inputTextViews=this.inputTextViewsP;
+                outputViews=this.outputViewsP;
+                break;
+
+            case P_PS_MODE: inputScrollViews=this.inputScrollViewsPps;
+                inputTextViews=this.inputTextViewsPps;
+                outputViews=this.outputViewsPps;
+                break;
+        }
+
+        // Selecting Tab
+        Espresso.onView((ViewMatchers.withText(tabs[mode]))).
+                perform(ViewActions.click());
+
+
 
         // Selecting whole Spinners Values
 
@@ -220,35 +293,39 @@ public class ExampleInstrumentedTest {
     public void levelUITest()
     {
 
-        /* the order is given as follows 0: HighChamber to flange
+        /* the order is given as follows
+        0: HighChamber to flange
         1: high measure to high chamber's flange
         2: from bottom tank to high chamber's flange
         3: Low Chamber to flange
-        4: Low measure to high chamber's flange
-        5: from bottom tank to low chamber's flange
-        6: Static pressure at tank
-        7: SG for fill fluid
-        8: SG liquid
+        4: from bottom tank to low chamber's flange
+        5: SG for fill fluid
+        6: SG liquid
         */
-        String [] inputTextValues={ "0.0","324.0","8.0","0.0","0.0","0.0",
-                "0.0","0.0","0.997"};
+        String [] inputTextValues={ "0.0","324.0","8.0","0.0","0.0",
+                "0.0","0.997"};
 
-        /* the order is given as follows 0: HighChamber to flange unit
+        /* the order is given as follows
+        0: HighChamber to flange unit
         1: high measure to high chamber's flange unit
         2: from bottom tank to high chamber's flange unit
         3: Low Chamber to flange unit
-        4: Low measure to high chamber's flange unit
-        5: from bottom tank to low chamber's flange unit
-        6: Static pressure at tank unit
-        7: minimum pressure unit output
-        8: maximum pressure unit output
-        9: minimum height unit output
-        10: maximum height unit output
+        4: from bottom tank to low chamber's flange unit
+        5: minimum pressure unit output
+        6: maximum pressure unit output
+        7: minimum height unit output
+        8: maximum height unit output
         */
 
-        int [] inputSpinnerValues={SignedLength.INCHES,SignedLength.INCHES,SignedLength.INCHES,
-                SignedLength.INCHES, SignedLength.INCHES, SignedLength.INCHES,
-                Pressure.PSI,Pressure.INH2O,Pressure.INH2O,SignedLength.INCHES,
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
                 SignedLength.INCHES};
         /* the order is given as follows:
         0: minimum pressure value output
@@ -258,41 +335,44 @@ public class ExampleInstrumentedTest {
          323.028*/
         String [] outputValues={"0.0","323.028","8","332"};
 
-        calculation(inputTextValues, inputSpinnerValues,outputValues);
+        calculation(inputTextValues, inputSpinnerValues,outputValues,DP_MODE);
     }
 
     @Test
     public void levelTwoLegsUI(){
 
-        /* the order is given as follows 0: HighChamber to flange
+        /* the order is given as follows
+        0: HighChamber to flange
         1: high measure to high chamber's flange
         2: from bottom tank to high chamber's flange
         3: Low Chamber to flange
-        4: Low measure to high chamber's flange
-        5: from bottom tank to low chamber's flange
-        6: Static pressure at tank
-        7: SG for fill fluid
-        8: SG liquid
+        4: from bottom tank to low chamber's flange
+        5: SG for fill fluid
+        6: SG liquid
         */
-        String [] inputTextValues={ "0.0","114.0","6.0","114.0","0.0","120.0",
-                "15.0","0.934","0.893"};
+        String [] inputTextValues={ "0.0","114.0","6.0","114.0","120.0",
+                "0.934","0.893"};
 
-        /* the order is given as follows 0: HighChamber to flange unit
+        /* the order is given as follows
+        0: HighChamber to flange unit
         1: high measure to high chamber's flange unit
         2: from bottom tank to high chamber's flange unit
         3: Low Chamber to flange unit
-        4: Low measure to high chamber's flange unit
-        5: from bottom tank to low chamber's flange unit
-        6: Static pressure at tank unit
-        7: minimum pressure unit output
-        8: maximum pressure unit output
-        9: minimum height unit output
-        10: maximum height unit output
+        4: from bottom tank to low chamber's flange unit
+        5: minimum pressure unit output
+        6: maximum pressure unit output
+        7: minimum height unit output
+        8: maximum height unit output
         */
 
-        int [] inputSpinnerValues={SignedLength.INCHES,SignedLength.INCHES,SignedLength.INCHES,
-                SignedLength.INCHES, SignedLength.INCHES, SignedLength.INCHES,
-                Pressure.PSI,Pressure.INH2O,Pressure.INH2O,SignedLength.INCHES,
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
                 SignedLength.INCHES};
         /* the order is given as follows:
         0: minimum pressure value output
@@ -302,7 +382,306 @@ public class ExampleInstrumentedTest {
          323.028*/
         String [] outputValues={"-106.476","-4.674","6","120"};
 
-        calculation(inputTextValues, inputSpinnerValues,outputValues);
+        calculation(inputTextValues, inputSpinnerValues,outputValues,DP_MODE);
     }
+
+    @Test
+    public void levelTwoLegsWithoutFillFluidUI(){
+
+        /* the order is given as follows
+        0: HighChamber to flange
+        1: high measure to high chamber's flange
+        2: from bottom tank to high chamber's flange
+        3: Low Chamber to flange
+        4: from bottom tank to low chamber's flange
+        5: SG for fill fluid
+        6: SG liquid
+        */
+        String [] inputTextValues={ "1.0","90","15.0","91.0","105.0",
+                "0.0","0.618"};
+
+        /* the order is given as follows
+        0: HighChamber to flange unit
+        1: high measure to high chamber's flange unit
+        2: from bottom tank to high chamber's flange unit
+        3: Low Chamber to flange unit
+        4: from bottom tank to low chamber's flange unit
+        5: minimum pressure unit output
+        6: maximum pressure unit output
+        7: minimum height unit output
+        8: maximum height unit output
+        */
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
+                SignedLength.INCHES};
+        /* the order is given as follows:
+        0: minimum pressure value output
+        1: maximum pressure value output
+        2: minimum height value output
+        3: maximum height value output
+         323.028*/
+        String [] outputValues={"0.618","56.238","15","105"};
+
+        calculation(inputTextValues, inputSpinnerValues,outputValues,DP_MODE);
+    }
+
+
+    @Test
+    public void levelOneLegUI(){
+
+        /* the order is given as follows
+        0: HighChamber to flange
+        1: high measure to high chamber's flange
+        2: from bottom tank to high chamber's flange
+        3: SG for fill fluid
+        4: SG liquid
+        */
+        String [] inputTextValues={ "0.0","324.0","8.0","0.0","0.997"};
+
+        /* the order is given as follows
+        0: HighChamber to flange unit
+        1: high measure to high chamber's flange unit
+        2: from bottom tank to high chamber's flange unit
+        3: minimum pressure unit output
+        4: maximum pressure unit output
+        5: minimum height unit output
+        6: maximum height unit output
+        */
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
+                SignedLength.INCHES};
+        /* the order is given as follows:
+        0: minimum pressure value output
+        1: maximum pressure value output
+        2: minimum height value output
+        3: maximum height value output
+         323.028*/
+        String [] outputValues={"0.0","323.028","8","332"};
+
+        calculation(inputTextValues, inputSpinnerValues,outputValues,P_MODE);
+    }
+
+    @Test
+    public void levelOneLegFillFluidUI(){
+
+        /* the order is given as follows
+        0: HighChamber to flange
+        1: high measure to high chamber's flange
+        2: from bottom tank to high chamber's flange
+        3: SG for fill fluid
+        4: SG liquid
+        */
+        String [] inputTextValues={ "1.0","324.0","8.0","0.934","0.997"};
+
+        /* the order is given as follows
+        0: HighChamber to flange unit
+        1: high measure to high chamber's flange unit
+        2: from bottom tank to high chamber's flange unit
+        3: minimum pressure unit output
+        4: maximum pressure unit output
+        5: minimum height unit output
+        6: maximum height unit output
+        */
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
+                SignedLength.INCHES};
+        /* the order is given as follows:
+        0: minimum pressure value output
+        1: maximum pressure value output
+        2: minimum height value output
+        3: maximum height value output
+         323.028*/
+        String [] outputValues={"0.934","323.962","8","332"};
+
+        calculation(inputTextValues, inputSpinnerValues,outputValues,P_MODE);
+    }
+
+    @Test
+    public void levelOneLegLiquidWithFlangeDistanceUI(){
+
+        /* the order is given as follows
+        0: HighChamber to flange
+        1: high measure to high chamber's flange
+        2: from bottom tank to high chamber's flange
+        3: SG for fill fluid
+        4: SG liquid
+        */
+        String [] inputTextValues={ "1.0","324.0","8.0","0.0","0.997"};
+
+        /* the order is given as follows
+        0: HighChamber to flange unit
+        1: high measure to high chamber's flange unit
+        2: from bottom tank to high chamber's flange unit
+        3: minimum pressure unit output
+        4: maximum pressure unit output
+        5: minimum height unit output
+        6: maximum height unit output
+        */
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
+                SignedLength.INCHES};
+        /* the order is given as follows:
+        0: minimum pressure value output
+        1: maximum pressure value output
+        2: minimum height value output
+        3: maximum height value output
+         323.028*/
+        String [] outputValues={"0.997","324.025","8","332"};
+
+        calculation(inputTextValues, inputSpinnerValues,outputValues,P_MODE);
+    }
+
+
+    @Test
+    public void levelOneLegPsUI(){
+
+        /* the order is given as follows
+        0: HighChamber to flange
+        1: high measure to high chamber's flange
+        2: from bottom tank to high chamber's flange
+        3: Pressure at tank
+        4: SG for fill fluid
+        5: SG liquid
+        */
+        String [] inputTextValues={ "0.0","324.0","8.0","2","0.0","0.997"};
+
+        /* the order is given as follows
+        0: HighChamber to flange unit
+        1: high measure to high chamber's flange unit
+        2: from bottom tank to high chamber's flange unit
+        3: Pressure at tank
+        4: minimum pressure unit output
+        5: maximum pressure unit output
+        6: minimum height unit output
+        7: maximum height unit output
+        */
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
+                SignedLength.INCHES};
+        /* the order is given as follows:
+        0: minimum pressure value output
+        1: maximum pressure value output
+        2: minimum height value output
+        3: maximum height value output
+         323.028*/
+        String [] outputValues={"2.0","325.028","8","332"};
+
+        calculation(inputTextValues, inputSpinnerValues,outputValues,P_PS_MODE);
+    }
+
+    @Test
+    public void levelOneLegFillFluidPsUI(){
+
+        /* the order is given as follows
+        0: HighChamber to flange
+        1: high measure to high chamber's flange
+        2: from bottom tank to high chamber's flange
+        3: Pressure at tank
+        4: SG for fill fluid
+        5: SG liquid
+        */
+        String [] inputTextValues={ "1.0","324.0","8.0","2.0","0.934","0.997"};
+
+        /* the order is given as follows
+        0: HighChamber to flange unit
+        1: high measure to high chamber's flange unit
+        2: from bottom tank to high chamber's flange unit
+        3: Pressure at tank
+        4: minimum pressure unit output
+        5: maximum pressure unit output
+        6: minimum height unit output
+        7: maximum height unit output
+        */
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
+                SignedLength.INCHES};
+        /* the order is given as follows:
+        0: minimum pressure value output
+        1: maximum pressure value output
+        2: minimum height value output
+        3: maximum height value output
+         323.028*/
+        String [] outputValues={"2.934","325.962","8","332"};
+
+        calculation(inputTextValues, inputSpinnerValues,outputValues,P_PS_MODE);
+    }
+
+    @Test
+    public void levelOneLegLiquidWithFlangeDistancePsUI(){
+
+        /* the order is given as follows
+        0: HighChamber to flange
+        1: high measure to high chamber's flange
+        2: from bottom tank to high chamber's flange
+        3: Pressure at tank
+        4: SG for fill fluid
+        5: SG liquid
+        */
+        String [] inputTextValues={ "1.0","324.0","8.0","2.0","0.0","0.997"};
+
+        /* the order is given as follows
+        0: HighChamber to flange unit
+        1: high measure to high chamber's flange unit
+        2: from bottom tank to high chamber's flange unit
+        3: Pressure at tank
+        4: minimum pressure unit output
+        5: maximum pressure unit output
+        6: minimum height unit output
+        7: maximum height unit output
+        */
+
+        int [] inputSpinnerValues={SignedLength.INCHES,
+                SignedLength.INCHES,
+                SignedLength.INCHES,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                Pressure.INH2O,
+                SignedLength.INCHES,
+                SignedLength.INCHES};
+        /* the order is given as follows:
+        0: minimum pressure value output
+        1: maximum pressure value output
+        2: minimum height value output
+        3: maximum height value output
+         323.028*/
+        String [] outputValues={"2.997","326.025","8","332"};
+
+        calculation(inputTextValues, inputSpinnerValues,outputValues,P_PS_MODE);
+    }
+
 }
 

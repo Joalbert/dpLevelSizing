@@ -2,6 +2,7 @@ package ve.com.palcom.dplevelsizing;
 import java.math.BigDecimal;
 
 
+import ve.com.palcom.unitconverter.LengthException;
 import ve.com.palcom.unitconverter.Pressure;
 import ve.com.palcom.unitconverter.SignedLength;
 /**
@@ -10,9 +11,11 @@ import ve.com.palcom.unitconverter.SignedLength;
 
 public class dpLevelCalculation {
 
-    private double SGFillFluid=0;
+    private double SGFillFluidHighChamber=0;
+    private double SGFillFluidLowChamber=0;
     private double SGLiquidTank=0;
-    private Pressure staticPressure;
+    private Pressure staticPressureHighChamber;
+    private Pressure staticPressureLowChamber;
 
     // Distance from Low Chamber to Flange
     private SignedLength dFlangesLowChamber;
@@ -41,9 +44,11 @@ public class dpLevelCalculation {
      *@param dHighlevelFlangesHighChamber weight of liquid due distance from flange to high chamber dP cell
      * @param dBottomTankFlangesHighChamber distance from bottom tank to flange where high chamber
      *                                    is connected
-     * @param SGFillFluid Specific gravity for fill fluid for each leg, if any
+     * @param SGFillFluidHighChamber Specific gravity for fill fluid for High leg, if any
+     * @param SGFillFluidLowChamber Specific gravity for fill fluid for low leg, if any
      * @param SGLiquidTank Specific gravity for liquid to be measured
-     * @param staticPressure pressure of vessel
+     * @param staticPressureHighChamber pressure of vessel at high chamber
+     * @param staticPressureLowChamber pressure at low chamber
      * *  */
     public dpLevelCalculation(SignedLength dFlangesLowChamber,
                               SignedLength dHighlevelFlangesLowChamber,
@@ -51,8 +56,10 @@ public class dpLevelCalculation {
                               SignedLength dFlangesHighChamber,
                               SignedLength dHighlevelFlangesHighChamber,
                               SignedLength dBottomTankFlangesHighChamber,
-                              Pressure staticPressure,
-                              double SGFillFluid,
+                              Pressure staticPressureHighChamber,
+                              Pressure staticPressureLowChamber,
+                              double SGFillFluidHighChamber,
+                              double SGFillFluidLowChamber,
                               double SGLiquidTank)
     {
         this.dFlangesLowChamber=dFlangesLowChamber;
@@ -61,25 +68,29 @@ public class dpLevelCalculation {
         this.dFlangesHighChamber=dFlangesHighChamber;
         this.dHighlevelFlangesHighChamber=dHighlevelFlangesHighChamber;
         this.dBottomTankFlangesHighChamber=dBottomTankFlangesHighChamber;
-        this.SGFillFluid=SGFillFluid;
+        this.SGFillFluidHighChamber=SGFillFluidHighChamber;
+        this.SGFillFluidLowChamber=SGFillFluidLowChamber;
         this.SGLiquidTank=SGLiquidTank;
-        this.staticPressure=staticPressure;
+        this.staticPressureHighChamber=staticPressureHighChamber;
+        this.staticPressureLowChamber=staticPressureLowChamber;
 
     }
     /** Constructor of dP calculation, the function ask for each value required to perform the
      * calculation
      * @param builder: builder class which help to construct a calculation case
      */
-    public dpLevelCalculation(Builder builder){
+    private dpLevelCalculation(Builder builder){
         this.dFlangesLowChamber=builder.FlangesLowChamber;
         this.dHighlevelFlangesLowChamber=builder.HighlevelFlangesLowChamber;
         this.dBottomTankFlangesLowChamber=builder.BottomTankFlangesLowChamber;
         this.dFlangesHighChamber=builder.FlangesHighChamber;
         this.dHighlevelFlangesHighChamber=builder.HighlevelFlangesHighChamber;
         this.dBottomTankFlangesHighChamber=builder.BottomTankFlangesHighChamber;
-        this.SGFillFluid=builder.SGFillFluid;
+        this.SGFillFluidHighChamber=builder.SGFillFluidHighChamber;
+        this.SGFillFluidLowChamber=builder.SGFillFluidLowChamber;
         this.SGLiquidTank=builder.SGLiquidTank;
-        this.staticPressure=builder.staticPressure;
+        this.staticPressureHighChamber=builder.staticPressureHighChamber;
+        this.staticPressureLowChamber=builder.staticPressureLowChamber;
 
     }
 
@@ -99,9 +110,12 @@ public class dpLevelCalculation {
          * @return pressure in inches of water
          * */
     private static BigDecimal leg(SignedLength FlangesToChamber,SignedLength FlangesToHighMeasure,
-                                double SGfill, double SGTank, Pressure staticPressure)
+                                double SGfill, double SGTank, Pressure staticPressure,
+                                  SignedLength FlangesToBottomTank)
     {
         BigDecimal result;
+
+        // Convert whole distance to inches
         FlangesToChamber=new SignedLength(SignedLength.signedConvertLength(
                 FlangesToChamber.getValue(),FlangesToChamber.getUnit(), SignedLength.INCHES),
                 SignedLength.INCHES);
@@ -110,6 +124,23 @@ public class dpLevelCalculation {
                 FlangesToHighMeasure.getValue(),FlangesToHighMeasure.getUnit(),SignedLength.INCHES),
                 SignedLength.INCHES);
 
+        FlangesToBottomTank=new SignedLength(SignedLength.signedConvertLength(
+                FlangesToBottomTank.getValue(),FlangesToBottomTank.getUnit(),SignedLength.INCHES),
+                SignedLength.INCHES);
+
+        // Validate values of level measure is higher than distance from the bottom tank
+        if(FlangesToBottomTank.getValue().compareTo(
+                FlangesToHighMeasure.addSignedLength(FlangesToBottomTank).getValue())>0)
+            {
+            FlangesToHighMeasure = new SignedLength(BigDecimal.ZERO, SignedLength.INCHES);
+            }
+        // Validate if instrument is above flanges and compesating into calculation
+        if(FlangesToChamber.getValue().compareTo(BigDecimal.ZERO)<0)
+            {
+            FlangesToHighMeasure=FlangesToHighMeasure.addSignedLength(FlangesToChamber);
+            FlangesToChamber = new SignedLength(BigDecimal.ZERO, SignedLength.INCHES);
+            }
+        // Calculate weigh of liquid for the leg
         result=FlangesToChamber.getValue().multiply(new BigDecimal(SGfill));
 
         result=result.add(
@@ -127,7 +158,7 @@ public class dpLevelCalculation {
      * @return calculation of maximum differential pressure required in tank
      */
 
-    protected BigDecimal getMaxPres(){
+    public BigDecimal getMaxPres(){
         return getPresAnyLength(dHighlevelFlangesHighChamber,
                 dHighlevelFlangesLowChamber);
     }
@@ -136,7 +167,7 @@ public class dpLevelCalculation {
      * @return calculation of minimum differential pressure required in tank
      */
 
-    protected BigDecimal getMinPres(){
+    public BigDecimal getMinPres(){
         return getPresAnyLength(new SignedLength(BigDecimal.ZERO,SignedLength.INCHES),
                 new SignedLength(BigDecimal.ZERO,SignedLength.INCHES));
     }
@@ -147,18 +178,20 @@ public class dpLevelCalculation {
      * @return calculation of differential pressure at any length
      */
 
-    protected BigDecimal getPresAnyLength(SignedLength higherChamberWeightLength,
+    public BigDecimal getPresAnyLength(SignedLength higherChamberWeightLength,
                                           SignedLength lowerChamberWeightLength){
         return leg(dFlangesHighChamber,higherChamberWeightLength,
-                SGFillFluid,SGLiquidTank,staticPressure).subtract(
+                SGFillFluidHighChamber,SGLiquidTank,staticPressureHighChamber,
+                dBottomTankFlangesHighChamber).subtract(
                 leg(dFlangesLowChamber,lowerChamberWeightLength,
-                        SGFillFluid,SGLiquidTank,staticPressure));
+                        SGFillFluidLowChamber,SGLiquidTank,staticPressureLowChamber,
+                        dBottomTankFlangesLowChamber));
     }
 
     /**@return Maximum level measurement taken from bottom of tank
      *
      *  */
-    protected  BigDecimal getMaxLevel(){
+    public BigDecimal getMaxLevel(){
         BigDecimal result,lowerDistance;
         result=SignedLength.signedConvertLength(dHighlevelFlangesHighChamber.getValue(),
                 dHighlevelFlangesHighChamber.getUnit(),SignedLength.INCHES);
@@ -178,7 +211,7 @@ public class dpLevelCalculation {
     }
     /**@return minimum level measurement possible, where this one is measured from bottom tank
      */
-    protected  BigDecimal getMinLevel(){
+    public BigDecimal getMinLevel(){
         BigDecimal result;
         result=SignedLength.signedConvertLength(dBottomTankFlangesHighChamber.getValue(),
                         dBottomTankFlangesHighChamber.getUnit(),SignedLength.INCHES);
@@ -188,20 +221,22 @@ public class dpLevelCalculation {
     /***
      * @return range of measurement (distance)
      */
-    protected  BigDecimal getLevelMeasurement(){
+    public BigDecimal getLevelMeasurement(){
         return getMaxLevel().subtract(getMinLevel());
     }
 
-    protected  BigDecimal getLowChamberMax(){
+    public BigDecimal getLowChamberMax(){
         return SignedLength.signedConvertLength(dBottomTankFlangesLowChamber.getValue(),
                 dBottomTankFlangesLowChamber.getUnit(),SignedLength.INCHES);
     }
 
     public static class Builder{
         // Required parameter
-        private double SGFillFluid=0;
+        private double SGFillFluidHighChamber=0;
+        private double SGFillFluidLowChamber=0;
         private double SGLiquidTank=0;
-        private Pressure staticPressure=new Pressure(BigDecimal.ZERO,Pressure.INH2O);
+        private Pressure staticPressureHighChamber=new Pressure(BigDecimal.ZERO,Pressure.INH2O);
+        private Pressure staticPressureLowChamber=new Pressure(BigDecimal.ZERO,Pressure.INH2O);
 
         // Distance from Low Chamber to Flange
         private SignedLength FlangesLowChamber=new SignedLength(BigDecimal.ZERO,
@@ -228,10 +263,17 @@ public class dpLevelCalculation {
             this.HighlevelFlangesHighChamber=HighlevelFlangesHighChamber;
         }
 
-        public Builder setStaticPressure(Pressure staticPressure){
-            this.staticPressure=staticPressure;
+        public Builder setStaticPressureHighChamber(Pressure staticPressure){
+            this.staticPressureHighChamber=staticPressure;
             return this;
         }
+
+        public Builder setStaticPressureLowChamber(Pressure staticPressure){
+            this.staticPressureLowChamber=staticPressure;
+            return this;
+        }
+
+
         public Builder setFlangesLowChamber(SignedLength FlangesLowChamber){
             this.FlangesLowChamber=FlangesLowChamber;
             return this;
@@ -256,10 +298,16 @@ public class dpLevelCalculation {
             return this;
         }
 
-        public Builder setSgFillFluid(double SGFillFluid){
-            this.SGFillFluid=SGFillFluid;
+        public Builder setSgFillFluidHighChamber(double SGFillFluid){
+            this.SGFillFluidHighChamber=SGFillFluid;
             return this;
         }
+
+        public Builder setSgFillFluidLowChamber(double SGFillFluid){
+            this.SGFillFluidLowChamber=SGFillFluid;
+            return this;
+        }
+
 
         public dpLevelCalculation build(){
             return new dpLevelCalculation(this);
