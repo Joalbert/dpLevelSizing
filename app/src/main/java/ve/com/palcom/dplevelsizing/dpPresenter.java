@@ -269,30 +269,7 @@ public class dpPresenter
                         setSgLiquid(Double.valueOf(inEditText[6])).
                         build();
                 break;
-                /*
-            case 8: //dp Pressurized
-                highChamberFlange=new SignedLength(
-                        new BigDecimal(inEditText[1]),inSpinner[1]
-                );
-                measureHighChamber=new SignedLength(
-                        new BigDecimal(inEditText[0]),inSpinner[0]
-                );
-                bottomHighChamber=new SignedLength(
-                        new BigDecimal(inEditText[2]),inSpinner[2]
-                );
-                levelCalc= new dpLevelCalculation.Builder(highChamberFlange,
-                        measureHighChamber,bottomHighChamber).
-                        setFlangesLowChamber(new SignedLength(new BigDecimal(inSpinner[3]),
-                                inSpinner[3])).
-                        setBottomTankFlangesLowChamber(new SignedLength(new BigDecimal(inEditText[4]),
-                                inSpinner[4])).
-                        setStaticPressure(new Pressure(new BigDecimal(inEditText[5]),inSpinner[5])).
-                        setSgFillFluid(Double.valueOf(inEditText[6])).
-                        setSgLiquid(Double.valueOf(inEditText[7])).
-                        build();
 
-                break;
-                */
         }
     return levelCalc;
     }

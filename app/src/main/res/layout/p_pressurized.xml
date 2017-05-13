@@ -197,6 +197,13 @@
                     android:id="@+id/ppsMaxHeightUnit"
                     />
                 <!--- Result-->
+                <TextView
+                    android:id="@+id/ppsSgFillFluidInd"
+                    android:layout_below="@+id/ppsMaxHeightUnit"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/SGFillFluidIfAny"/>
+
             </RelativeLayout>
 </ScrollView>
 

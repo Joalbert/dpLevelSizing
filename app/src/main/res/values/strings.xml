@@ -12,6 +12,8 @@
     <string name="staticPressure">Static Pressure Tank</string>
     <string name="SGFill">SG Fill Fluid</string>
     <string name="SGLiquid">SG Liquid</string>
+    <string name="SGFillFluidIfAny">If fill fluid is not used, you should indicate that by
+    writing 0 at SG Fill Fluid field</string>
     <string name="img">Tank</string>
     <string-array name="legs">
         <item>Two Legs</item>
