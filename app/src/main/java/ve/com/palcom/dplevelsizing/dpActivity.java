@@ -28,8 +28,8 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
         setSupportActionBar(mtoolbar);
 
         submitting = (Button) findViewById(R.id.submit);
-
-        amazonBanner("99d0bfb1899b46bb8d9acd16a9f488af");
+        //xxxxx : it should be changed by your amazon code for the banner
+        amazonBanner("xxxxx");
 
         mViewPager=(ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
