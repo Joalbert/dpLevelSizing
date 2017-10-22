@@ -48,14 +48,6 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
         adapter.addFragment(new pFragment(),names[2]);
         viewPager.setAdapter(adapter);
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_level_d, menu);
-        return true;
-    }
-*/
     @Override
     protected void onStart(){
         super.onStart();
@@ -79,31 +71,6 @@ public class dpActivity extends AppCompatActivity implements View.OnClickListene
         adLayout.enableAutoShow();
         adLayout.setTimeout(60000);
     }
-
-   /* @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        switch(id) {
-            case (R.id.nightMode):
-                this.finish();
-                this.setTheme(R.style.AppTheme);
-                this.startActivity(new Intent(this,dpActivity.class));
-                break;
-            case (R.id.dayMode):
-                this.finish();
-                this.setTheme(R.style.dayTheme);
-                this.startActivity(new Intent(this,dpActivity.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
 
     @Override
     public void onClick(View v)
